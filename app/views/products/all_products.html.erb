@@ -1,0 +1,11 @@
+<h1>All Products</h1>
+
+<h3>Here is a listing of the products that we carry:</h3>
+
+<p><% @products.each do |product| %></p>
+<p><%= product.name %></p>
+<p><%= product.price %></p>
+<p><a href="<%= product.image %>">product image</a></p>
+<p><%= product.description %></p>
+<br>
+<% end %>
