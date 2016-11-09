@@ -16,7 +16,7 @@
 <tr>
 <% @products.each do |product| %>
 <td><%= product.name %></td>
-<td><%= product.price %></td>
+<td>$<%= product.price %>.00</td>
 <td><a href="<%= product.image %>">product image</a></td>
 <td><%= product.description %></td>
 </tr>

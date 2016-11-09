@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# Add faker gem
+gem 'faker'
 # Add bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
