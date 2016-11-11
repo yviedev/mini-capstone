@@ -1,0 +1,13 @@
+<h1>Product form</h1>
+
+<%= form_tag '/created_products', method: :post do %>
+  <%= label_tag :product_name %>
+  <%= text_field_tag :product_name %><br>
+  <%= label_tag :product_price %> 
+  <%= text_field_tag :product_price %><br>
+  <%= label_tag :product_image %>
+  <%= text_field_tag :product_image %><br>
+  <%= label_tag :product_description %>
+  <%= text_field_tag :product_description %>
+  <%= submit_tag 'Submit This!!' %>
+<% end %>
