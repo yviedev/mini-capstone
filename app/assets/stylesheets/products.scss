@@ -1,3 +1,33 @@
 // Place all the styles related to the products controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  background-image: url('wov.png');
+  background-repeat: repeat;
+  // background-color: purple;
+  text-align: center;
+  font-family: 'Chelsea Market', cursive;
+}
+
+img {
+  height: 15%;
+  width: 15%
+}
+
+p {
+  font-size: 1.5em;
+
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+.price {
+  color: red;
+}

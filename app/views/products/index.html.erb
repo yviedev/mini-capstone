@@ -1,0 +1,20 @@
+<h1>Welcome to YvonneMart!</h1>
+<h2>Here is a listing of all of our products:</h2>
+
+<% @products.each_with_index do |product, index| %>
+<!-- Print products across 3 at a time and then a new row. -->
+<% if index % 4 == 0 %>
+<div class="row">
+  <% else %>
+  <div class="col-md-4">
+    <!-- # Link product name to individual product page -->
+    <h2><a href="/products/<%= product.id %>"><%= product.name %></a></h2>
+    <p class="price">$<%= product.price %></p>
+    <p><img src="<%= product.image %>"></p>
+    <p><%= product.description %></p>
+    <p><button type="button" class="btn btn-success">Buy now!</button></p>
+  </div>
+  <% end %>
+</div>
+<% end %>
+
