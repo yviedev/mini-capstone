@@ -30,7 +30,11 @@ class ProductsController < ApplicationController
 
   def index
     @title = "All products"
-    @products = Product.all
+    #if 
+      @products = Product.order(price: :asc)
+    #else
+      #@products = Product.all
+    #end
     render 'index.html.erb'
   end
 
@@ -51,7 +55,8 @@ class ProductsController < ApplicationController
       name: params["name"],
       price: params["price"],
       image: params["image"],
-      description: params["description"]
+      description: params["description"],
+      in_stock: params["in_stock"]
       )
     product.save
     flash[:success] = "Congrats. You made a new product."
@@ -68,7 +73,7 @@ class ProductsController < ApplicationController
   def update
     @title = "Update product"
     product = Product.find_by(id: params["id"])
-    product.update(name: params["name"], price: params["price"], image: params["image"], description:params["description"])
+    product.update(name: params["name"], price: params["price"], image: params["image"], description: params["description"], in_stock: params["in_stock"])
     flash[:info] = "Congrats. You updated your product."
     redirect_to "/products/#{product.id}"
   end
@@ -82,5 +87,4 @@ class ProductsController < ApplicationController
     flash[:danger] = "Your product has been deleted."
     redirect_to "/products/"
   end
-
 end
