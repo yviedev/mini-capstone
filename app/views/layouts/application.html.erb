@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= @title %></title>
-    <%= csrf_meta_tags %>
+<head>
+  <title><%= @title %></title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
+<body>
 
   <nav class="navbar navbar-inverse">
-  <a class="navbar-brand" href="/products">YvonneMart</a>
-  <ul class="nav navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="http://example.com" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-      <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </li>
-  </ul>
-  <form class="form-inline float-xs-right">
+    <a class="navbar-brand" href="/products">YvonneMart</a>
+    <ul class="nav navbar-nav">
+    
+      <li class="nav-item">
+        <a class="nav-link" href="/products?discount_item=price">Discount Items</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/products/random_product">Random Product of the Day</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort</a>
+        <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+          <p><a class="dropdown-item" href="/products?sort=price&direction=asc">Sort by price, low to high</a></p>
+          <p><a class="dropdown-item" href="/products?sort=price&direction=desc">Sort by price, high to low</a></p>
+          <p><a class="dropdown-item" href="/products?sort=name&direction=asc">Sort by name, a-z</a></p>
+          <p><a class="dropdown-item" href="/products?sort=name&direction=desc">Sort by name, z-a</a></p>
+        </div>
+      </li>
+    </ul>
+  <!-- <form class="form-inline float-xs-right">
     <input class="form-control" type="text" placeholder="Search">
     <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
+  </form> -->
+
+  <%= form_tag "/products", method: :get, class: "navbar-form navbar-left" do %>
+  <div class="form-group">
+    <%= text_field_tag :search_content, '' , class: "form-control", placeholder: "Enter name of product" %>
+    <%= submit_tag 'Search for an item', class: "btn btn-default" %>
+  </div>
+  <% end %>
+
 </nav>
 
-  <div class="container>"
-    <% flash.each do |name, message| %>
-        <div class="alert alert-<%= name %>" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><%= message %></div>
-    <% end %>
-  </div>
-    <%= yield %>
-  
+<div class="container>"
+  <% flash.each do |name, message| %>
+  <div class="alert alert-<%= name %>" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><%= message %></div>
+  <% end %>
+</div>
+<%= yield %>
 
-  </body>
+
+</body>
 </html>

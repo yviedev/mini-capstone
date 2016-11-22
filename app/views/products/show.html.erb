@@ -1,10 +1,12 @@
 <h1>Here is the product you requested:</h1>
 
 <h2><%= @product.name %></h2>
-  <p class="price">$<%= @product.price %></p>
-  <p><img src="<%= @product.image %>"></p>
+  <p class="price"><%= number_to_currency @product.price %></p>
+  <% @product.images.each do |image| %>
+  <p><img src="<%= image.url %>"></p>
+  <% end %>
   <p><%= @product.description %></p>
-  <p><%= @product.in_stock? %></p>
+  <p class="in_stock"><%= @product.in_stock? %></p>
   <p><button type="button" class="btn btn-success">Add to cart</button></p><br>
 
 <% if @product.sale_message == "Discount Item!"%>
@@ -16,6 +18,7 @@
 <% end %>
 <h3>The sales tax is: <%= number_to_currency @product.tax %></h3>
 <h3>The total is: <%= number_to_currency @product.total  %></h3><br>
+<h3>The supplier is: <%= @product.supplier.name  %></h3><br>
 
 <%= link_to "Edit me", "/products/#{@product.id}/edit" %><br>
 

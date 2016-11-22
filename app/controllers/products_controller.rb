@@ -1,46 +1,34 @@
 class ProductsController < ApplicationController
 
-  def all_products
-    @title = "All products"
-    @products = Product.all
-    render 'all_products.html'
-  end
-
-  def new_product_form
-    @title = "Product form"
-    render 'new_form.html.erb'
-  end
-
-  def make_product
-    @title = "Added product"
-    @name = params["product_name"]
-    @price = params["product_price"]
-    @image = params["product_image"]
-    @description = params["product_description"]
-    
-    @product = Product.new(
-      name: params["product_name"],
-      price: params["product_price"],
-      image: params["product_image"],
-      description: params["product_description"]
-      )
-    @product.save
-    render 'make_product.html.erb'
-  end
-
   def index
     @title = "All products"
-    #if 
-      @products = Product.order(price: :asc)
-    #else
-      #@products = Product.all
-    #end
+    @sort = params["sort"]
+    @direction = params["direction"]
+
+    if params["sort"]
+      @products = Product.order(@sort => @direction)
+    elsif params["discount_item"]
+      @products = Product.where("price < ?", 2)
+    elsif params["search_content"]
+      @products = Product.where("lower (name) LIKE ?", "%#{params["search_content"].downcase}%")
+      flash[:search] = "Here is the result of your search:"
+    else
+      @products = Product.all
+    end
+
     render 'index.html.erb'
   end
 
   def show
     @title = "Product page"
-    @product = Product.find_by(id: params["id"])
+
+    if params["id"] == 'random_product'
+      @product = Product.all.sample
+      flash[:random] = "Here is the product of the day:"
+    else
+      @product = Product.find_by(id: params["id"])
+    end
+
     render 'show.html.erb'
   end
 
@@ -56,7 +44,9 @@ class ProductsController < ApplicationController
       price: params["price"],
       image: params["image"],
       description: params["description"],
-      in_stock: params["in_stock"]
+      in_stock: params["in_stock"],
+      supplier_id: params["supplier_id"],
+      image_id: params["image_id"]
       )
     product.save
     flash[:success] = "Congrats. You made a new product."
@@ -73,7 +63,13 @@ class ProductsController < ApplicationController
   def update
     @title = "Update product"
     product = Product.find_by(id: params["id"])
-    product.update(name: params["name"], price: params["price"], image: params["image"], description: params["description"], in_stock: params["in_stock"])
+    product.update(
+      name: params["name"], 
+      price: params["price"], 
+      image: params["image"], 
+      description: params["description"], 
+      in_stock: as_bool(params["in_stock"])
+      )
     flash[:info] = "Congrats. You updated your product."
     redirect_to "/products/#{product.id}"
   end
@@ -87,4 +83,9 @@ class ProductsController < ApplicationController
     flash[:danger] = "Your product has been deleted."
     redirect_to "/products/"
   end
+
+  def as_bool (value)
+    return value.downcase == "true"
+  end
+
 end

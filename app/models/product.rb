@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+
+  belongs_to :supplier
+  has_many :images
+
   def sale_message
     #If an item is under $2, it returns the string “Discount Item!” - otherwise, it should return the string “On Sale!” Then, have this message appear on the product’s show page.
     if price < 2
@@ -20,11 +24,13 @@ class Product < ApplicationRecord
   end
 
   def in_stock?
-    if in_stock == "true".downcase
-      return "This product is in stock!"
+    if in_stock
+      result = "This product is in stock!"
     else
-      return "This product is out of stock!"
+      # in_stock = false
+      result = "This product is out of stock!"
     end
+    return result
   end
 
 end
