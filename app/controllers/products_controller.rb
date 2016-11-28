@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
 
   def index
+    # @user = User.find_by(id: session[:user_id])
     @title = "All products"
     @sort = params["sort"]
     @direction = params["direction"]
@@ -19,6 +20,28 @@ class ProductsController < ApplicationController
     render 'index.html.erb'
   end
 
+  def new
+    @title = "New product"
+    @suppliers = Supplier.all
+    render 'new.html.erb'
+  end
+
+  def create
+    @title = "Created product"
+    product = Product.new(
+      name: params["name"],
+      price: params["price"],
+      description: params["description"],
+      in_stock: params["in_stock"],
+      supplier_id: params["supplier_id"],
+      )
+    
+    product.save
+    flash[:success] = "Congrats. You made a new product."
+    redirect_to "/products/#{product.id}"
+    #render 'create.html.erb'
+  end
+
   def show
     @title = "Product page"
 
@@ -32,31 +55,10 @@ class ProductsController < ApplicationController
     render 'show.html.erb'
   end
 
-  def new
-    @title = "New product"
-    render 'new.html.erb'
-  end
-
-  def create
-    @title = "Created product"
-    product = Product.new(
-      name: params["name"],
-      price: params["price"],
-      image: params["image"],
-      description: params["description"],
-      in_stock: params["in_stock"],
-      supplier_id: params["supplier_id"],
-      image_id: params["image_id"]
-      )
-    product.save
-    flash[:success] = "Congrats. You made a new product."
-    redirect_to "/products/#{product.id}"
-    #render 'create.html.erb'
-  end
-
   def edit
     @title = "Edit product"
     @product = Product.find_by(id: params["id"])
+    @suppliers = Supplier.all
     render 'edit.html.erb'
   end
 
@@ -66,7 +68,6 @@ class ProductsController < ApplicationController
     product.update(
       name: params["name"], 
       price: params["price"], 
-      image: params["image"], 
       description: params["description"], 
       in_stock: as_bool(params["in_stock"])
       )

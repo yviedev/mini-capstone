@@ -2,9 +2,12 @@ class Product < ApplicationRecord
 
   belongs_to :supplier
   has_many :images
+  
+  belongs_to :user
+  has_many :orders
 
   def sale_message
-    #If an item is under $2, it returns the string “Discount Item!” - otherwise, it should return the string “On Sale!” Then, have this message appear on the product’s show page.
+    # If an item is under $2, it returns the string “Discount Item!” - otherwise, it should return the string “On Sale!” Then, have this message appear on the product’s show page.
     if price < 2
       return "Discount Item!"
     else

@@ -10,10 +10,6 @@
   <%= text_field_tag :price, @product.price %>
 </div>
 <div>
-  <%= label_tag :image %>
-  <%= text_field_tag :image, @product.image %>
-</div>
-<div>
   <%= label_tag :description %>
   <%= text_field_tag :description, @product.description %>
 </div>
@@ -23,7 +19,7 @@
 </div>
 <div>
   <%= label_tag :supplier_id %>
-  <%= text_field_tag :supplier_id, @product.in_stock %>
+  <%= select_tag :supplier_id, options_for_select(@suppliers.collect{ |s| [s.name, s.id] }) %>
 </div>
 <%= submit_tag 'Submit This!!' %>
 <% end %>

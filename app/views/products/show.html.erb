@@ -1,24 +1,45 @@
 <h1>Here is the product you requested:</h1>
 
+<h2><% @product.images.each do |photo| %></h2>
+<% if photo.url != nil && photo.url != "" %>
+<p><img src="<%= photo.url %>"></p>
+<% end %>
+<% end %>
+
 <h2><%= @product.name %></h2>
-  <p class="price"><%= number_to_currency @product.price %></p>
-  <% @product.images.each do |image| %>
-  <p><img src="<%= image.url %>"></p>
-  <% end %>
-  <p><%= @product.description %></p>
-  <p class="in_stock"><%= @product.in_stock? %></p>
-  <p><button type="button" class="btn btn-success">Add to cart</button></p><br>
+<p class="price"><%= number_to_currency @product.price %></p>
+
+<p><%= @product.description %></p>
+<p class="in_stock"><%= @product.in_stock? %></p>
+
 
 <% if @product.sale_message == "Discount Item!"%>
-  <h3><%= @product.sale_message %></h3>
-  <h3 class="price">The price is: <%= number_to_currency @product.price %></h3>
+<h3><%= @product.sale_message %></h3>
+<h3 class="price">The price is: <%= number_to_currency @product.price %></h3>
 <% else %>
-  <h3><%= @product.sale_message %></h3>
-  <h3>The price is: <%= number_to_currency @product.price %></h3>
+<h3><%= @product.sale_message %></h3>
+<h3>The price is: <%= number_to_currency @product.price %></h3>
 <% end %>
 <h3>The sales tax is: <%= number_to_currency @product.tax %></h3>
-<h3>The total is: <%= number_to_currency @product.total  %></h3><br>
-<h3>The supplier is: <%= @product.supplier.name  %></h3><br>
+<h3>The total is: <%= number_to_currency @product.total  %></h3>
+
+<% if !@product.supplier %>
+<p> The product supplier has not been designated.</p>
+<% else %>
+<h3>The supplier is: <%= @product.supplier.name %><br></h3><br>
+<% end %>
+
+<br>
+<%= form_tag '/orders/', method: :post do %>
+<%= label_tag :quantity %>
+<%= text_field_tag :quantity %>
+<%= label_tag :product_id %>
+<%= text_field_tag :product_id, @product.id, :readonly => true %>
+<%= submit_tag 'Buy now' %>
+<% end %>
+<br>
+
+<%= link_to "Add images", "/products/#{@product.id}/images/new" %><br>
 
 <%= link_to "Edit me", "/products/#{@product.id}/edit" %><br>
 

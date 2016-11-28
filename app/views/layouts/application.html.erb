@@ -30,6 +30,7 @@
           <p><a class="dropdown-item" href="/products?sort=name&direction=desc">Sort by name, z-a</a></p>
         </div>
       </li>
+
     </ul>
   <!-- <form class="form-inline float-xs-right">
     <input class="form-control" type="text" placeholder="Search">
@@ -39,9 +40,25 @@
   <%= form_tag "/products", method: :get, class: "navbar-form navbar-left" do %>
   <div class="form-group">
     <%= text_field_tag :search_content, '' , class: "form-control", placeholder: "Enter name of product" %>
-    <%= submit_tag 'Search for an item', class: "btn btn-default" %>
+    <%= submit_tag 'Search for an item', class: "btn btn-info" %>
   </div>
   <% end %>
+
+  <ul class="nav navbar-nav pull-right">
+    <li class="nav-item dropdown">
+      <% if current_user %>
+      <a class="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        
+        <%= current_user.name %>
+        <% else %>
+        <a href="/login">Login</a>
+        <% end %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+        <p><a class="dropdown-item" href="/logout">Logout</a></p>
+      </div>
+    </li>
+  </ul>
 
 </nav>
 
