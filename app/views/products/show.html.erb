@@ -6,6 +6,11 @@
 <% end %>
 <% end %>
 
+<p>Categories</p>
+<% @product.categories.each do |category| %>
+<%= category.name %> 
+<% end %>
+
 <h2><%= @product.name %></h2>
 <p class="price"><%= number_to_currency @product.price %></p>
 
