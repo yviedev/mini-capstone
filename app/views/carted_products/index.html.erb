@@ -1,0 +1,14 @@
+<h1>You have <%= @carted_products.count %> items in your cart</h1>
+
+<%= form_tag '/orders', method: :post do %>
+<% @carted_products.each do |item| %>
+  <img src="<%= item.product.image %>">
+  <h2><%= item.product.name %></h2>
+  <p>Carted Product Id: <%= item.id %></p>
+  <p>Quantity: <%= item.quantity %></p>
+  <p>Price: <%= number_to_currency item.product.price %></p>
+  <%= link_to "Delete me", "/cartedproducts/#{item.id}", :method => :delete, :confirm => "Are you sure ?"%><br>
+<% end %>
+<p><%= submit_tag 'Buy now!' %>
+<% end %>
+

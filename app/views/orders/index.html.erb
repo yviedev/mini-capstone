@@ -1,0 +1,8 @@
+<h1>Hey, <%= current_user.name %>, here are your orders:</h1>
+
+<% @orders.each do |order| %>
+  <p>Order ID: <a href="/orders/<%= order.id %>"><%= order.id %></a></p>
+  <p>Order date: <%= order.pretty_time %></p>
+  <p>Order total: <%= number_to_currency order.total %></p>
+  <hr>
+<% end %>

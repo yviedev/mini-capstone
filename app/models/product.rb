@@ -3,11 +3,15 @@ class Product < ApplicationRecord
   belongs_to :supplier
   has_many :images
   
-  belongs_to :user
-  has_many :orders
+  # belongs_to :user
+  # has_many :orders
 
   has_many :categorized_products
   has_many :categories, through: :categorized_products
+
+  has_many :carted_products
+  has_many :users, through: :carted_products
+  has_many :orders, through: :carted_products
 
   def sale_message
     # If an item is under $2, it returns the string “Discount Item!” - otherwise, it should return the string “On Sale!” Then, have this message appear on the product’s show page.

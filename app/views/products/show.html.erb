@@ -1,6 +1,6 @@
 <h1>Here is the product you requested:</h1>
 
-<h2><% @product.images.each do |photo| %></h2>
+<% @product.images.each do |photo| %>
 <% if photo.url != nil && photo.url != "" %>
 <p><img src="<%= photo.url %>"></p>
 <% end %>
@@ -35,19 +35,32 @@
 <% end %>
 
 <br>
+<% 
+=begin %>
 <%= form_tag '/orders/', method: :post do %>
-<%= label_tag :quantity %>
-<%= text_field_tag :quantity %>
-<%= label_tag :product_id %>
+<%= #label_tag :quantity %>
+<%= #text_field_tag :quantity %>
+<%= #label_tag :product_id %>
 <%= text_field_tag :product_id, @product.id, :readonly => true %>
 <%= submit_tag 'Buy now' %>
 <% end %>
+<% 
+=end %>
 <br>
+
+<%= form_tag '/cartedproducts', method: :post do %>
+<%= label_tag :quantity %>
+<%= text_field_tag :quantity %>
+<%= hidden_field_tag :product_id, @product.id%>
+<%= submit_tag 'Add to cart' %>
+<% end %>
 
 <%= link_to "Add images", "/products/#{@product.id}/images/new" %><br>
 
+<% if current_user && current_user.admin %>
 <%= link_to "Edit me", "/products/#{@product.id}/edit" %><br>
 
 <%= link_to "Delete me", "/products/#{@product.id}", :method => :delete, :confirm => "Are you sure ?"%><br>
+<% end %>
 
 <%= link_to "Back to all products", "/products/" %>

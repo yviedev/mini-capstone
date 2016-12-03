@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_admin!, only: [:create, :update, :destroy, :new, :edit]
 
   def index
     # @user = User.find_by(id: session[:user_id])
@@ -23,10 +24,17 @@ class ProductsController < ApplicationController
   def new
     @title = "New product"
     @suppliers = Supplier.all
-    render 'new.html.erb'
+
+    # if current_user && current_user.admin
+    #   render 'new.html.erb'
+    # else
+    redirect_to '/products'
+    # end
+
   end
 
   def create
+
     @title = "Created product"
     product = Product.new(
       name: params["name"],
@@ -38,8 +46,13 @@ class ProductsController < ApplicationController
     
     product.save
     flash[:success] = "Congrats. You made a new product."
-    redirect_to "/products/#{product.id}"
-    #render 'create.html.erb'
+
+    # if current_user && current_user.admin
+    #   redirect_to "/products/#{product.id}"
+    # else
+    redirect_to '/products'
+    # end
+    
   end
 
   def show
@@ -53,16 +66,28 @@ class ProductsController < ApplicationController
     end
 
     render 'show.html.erb'
+
   end
 
   def edit
+
     @title = "Edit product"
     @product = Product.find_by(id: params["id"])
     @suppliers = Supplier.all
-    render 'edit.html.erb'
+
+    # if current_user && current_user.admin
+    #   render 'edit.html.erb'
+    # else
+    redirect_to '/products'
+    # end
+
   end
 
   def update
+    unless current_user && current_user.admin
+      redirect_to "/products"
+    end
+
     @title = "Update product"
     product = Product.find_by(id: params["id"])
     product.update(
@@ -72,17 +97,33 @@ class ProductsController < ApplicationController
       in_stock: as_bool(params["in_stock"])
       )
     flash[:info] = "Congrats. You updated your product."
-    redirect_to "/products/#{product.id}"
+
+    # if current_user && current_user.admin
+    #   redirect_to "/products/#{product.id}"
+    # else
+    redirect_to '/products'
+    # end
+
   end
 
   def destroy
+    unless current_user && current_user.admin
+      redirect_to "/products"
+    end
+
     @title = "Delete product"
     # grab the recipe by id
     product = Product.find_by(id: params["id"])
     # kill it
     product.destroy
     flash[:danger] = "Your product has been deleted."
-    redirect_to "/products/"
+
+    # if current_user && current_user.admin
+    #   redirect_to "/products/"
+    # else
+    redirect_to '/products'
+    # end
+
   end
 
   def as_bool (value)

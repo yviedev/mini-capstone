@@ -1,16 +1,18 @@
-<h1>Here is the product you ordered:</h1>
+<h1>Hey, <%= current_user.name %>, here is your order:</h1>
+<h2>Your subtotal is: <%= number_to_currency @order.calculated_subtotal %></h2>
+<h2>Your total is: <%= number_to_currency @order.calculated_total %></h2>
 
-<img src="<%= @product.image %>">
 
-<h2>ID: <%= @order.id %></h2>
-<h2>Product Name: <%= @product.name %></h2>
-<h2>Product ID: <%= @product.id %></h2>
-<h2>Quantity: <%= @order.quantity %></h2>
-<h2>Subtotal: <%= number_to_currency @order.subtotal %></h2>
-<h2>Tax: <%= number_to_currency @order.tax %></h2>
-<h2>Total: <%= number_to_currency @order.total %></h2>
-<h2>Email: <%= @user.email %></h2>
-<h2>Your order was purchased on: <%= @order.pretty_time %></h2>
+<p><% @order.carted_products.each do |carted_product| %></p>
+<p><img src="<%= carted_product.product.image %>"></p>
+<p><%= carted_product.product.name %></p>
+<p>Quantity: <%= carted_product.quantity %></p>
+<p>Price: <%= number_to_currency carted_product.product.price %></p>
+<hr>
+<% end %>
+
+
+
 
 
 
