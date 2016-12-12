@@ -36,9 +36,14 @@ class CartedProductsController < ApplicationController
       quantity: params[:quantity]
       )
 
-    flash[:success] = "Congrats. You added items to your cart."
+    if @cartedproduct.carted_product_quantity == nil
+      flash[:warning] = "There are #{@cartedproduct.product.amount} item(s) available. Please choose a different quantity."
+      redirect_to "/products/#{@product.id}"
+    else
+      flash[:success] = "Congrats. You added items to your cart."
+      redirect_to "/cartedproducts"
+    end
 
-    redirect_to "/cartedproducts"
   end
 
   def show

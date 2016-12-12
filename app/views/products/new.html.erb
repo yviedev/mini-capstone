@@ -1,26 +1,6 @@
 <h1>Welcome to the new product form.</h1>
 <h2>Please complete to continue:</h2>
 
-<%= form_tag '/products', method: :post do %>
-  <div>
-  <%= label_tag :name %>
-  <%= text_field_tag :name %>
-  </div>
-  <div>
-  <%= label_tag :price %>
-  <%= text_field_tag :price %>
-  </div>
-  <div>
-  <%= label_tag :description %>
-  <%= text_field_tag :description %>
-  </div>
-  <div>
-  <%= label_tag :supplier_id %>
-  <!-- add dropdown form -->
-  <%= select_tag 'supplier_id', options_for_select(@suppliers.collect{ |s| [s.name, s.id] }) %>
+<%= render 'form.html.erb', message: "Add Product!", url: "/products", form_method: :post  %>
 
-  </div>
-
-  <%= submit_tag 'Submit This!!' %>
-<% end %>
 

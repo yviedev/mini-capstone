@@ -1,25 +1,4 @@
 <h1> Here is the form to edit a product:</h1>
 
-<%= form_tag "/products/#{@product.id}", method: :patch do %>
-<div>
-  <%= label_tag :name %>
-  <%= text_field_tag :name, @product.name %>
-</div>
-<div>
-  <%= label_tag :price %>
-  <%= text_field_tag :price, @product.price %>
-</div>
-<div>
-  <%= label_tag :description %>
-  <%= text_field_tag :description, @product.description %>
-</div>
-<div>
-  <%= label_tag :in_stock %>
-  <%= text_field_tag :in_stock, @product.in_stock %>
-</div>
-<div>
-  <%= label_tag :supplier_id %>
-  <%= select_tag :supplier_id, options_for_select(@suppliers.collect{ |s| [s.name, s.id] }) %>
-</div>
-<%= submit_tag 'Submit This!!' %>
-<% end %>
+<%= render 'form.html.erb', message: "Update Product!", url: "/products/#{@product.id}", form_method: :patch %>
+

@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_admin!, only: [:create, :update, :destroy, :new, :edit]
+  # before_action :authenticate_admin!, only: [:create, :update, :destroy, :new, :edit]
 
   def index
     # @user = User.find_by(id: session[:user_id])
@@ -24,19 +24,16 @@ class ProductsController < ApplicationController
   def new
     @title = "New product"
     @suppliers = Supplier.all
+    @product = Product.new
 
-    # if current_user && current_user.admin
-    #   render 'new.html.erb'
-    # else
-    redirect_to '/products'
-    # end
-
+    render 'new.html.erb'
   end
 
   def create
 
     @title = "Created product"
-    product = Product.new(
+    @suppliers = Supplier.all
+    @product = Product.new(
       name: params["name"],
       price: params["price"],
       description: params["description"],
@@ -44,14 +41,12 @@ class ProductsController < ApplicationController
       supplier_id: params["supplier_id"],
       )
     
-    product.save
-    flash[:success] = "Congrats. You made a new product."
-
-    # if current_user && current_user.admin
-    #   redirect_to "/products/#{product.id}"
-    # else
-    redirect_to '/products'
-    # end
+    if @product.save
+      flash[:success] = "Congrats. You made a new product."
+      redirect_to "/products/#{@product.id}"
+    else
+      render 'new.html.erb'
+    end
     
   end
 
@@ -75,41 +70,31 @@ class ProductsController < ApplicationController
     @product = Product.find_by(id: params["id"])
     @suppliers = Supplier.all
 
-    # if current_user && current_user.admin
-    #   render 'edit.html.erb'
-    # else
-    redirect_to '/products'
-    # end
+    # redirect_to '/products'
 
   end
 
   def update
-    unless current_user && current_user.admin
-      redirect_to "/products"
-    end
 
     @title = "Update product"
-    product = Product.find_by(id: params["id"])
-    product.update(
+    @product = Product.find_by(id: params["id"])
+    @suppliers = Supplier.all
+    if @product.update(
       name: params["name"], 
       price: params["price"], 
       description: params["description"], 
       in_stock: as_bool(params["in_stock"])
       )
-    flash[:info] = "Congrats. You updated your product."
+      flash[:info] = "Congrats. You updated your product."
 
-    # if current_user && current_user.admin
-    #   redirect_to "/products/#{product.id}"
-    # else
-    redirect_to '/products'
-    # end
+      redirect_to "/products/#{@product.id}"
+    else
+      render 'edit.html.erb'
+    end      
 
   end
 
   def destroy
-    unless current_user && current_user.admin
-      redirect_to "/products"
-    end
 
     @title = "Delete product"
     # grab the recipe by id
@@ -118,11 +103,7 @@ class ProductsController < ApplicationController
     product.destroy
     flash[:danger] = "Your product has been deleted."
 
-    # if current_user && current_user.admin
-    #   redirect_to "/products/"
-    # else
     redirect_to '/products'
-    # end
 
   end
 

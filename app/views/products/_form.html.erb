@@ -1,0 +1,33 @@
+<%= form_tag url, method: form_method do %>
+
+  <p>Please correct the <%= @product.errors.full_messages.count %> error(s) below: </p>
+  <% @product.errors.full_messages.each do |error| %>
+    <li>
+    <ul><%= error %></ul>
+    </li>
+  <% end %>
+
+  <div>
+    <%= label_tag :name %>
+    <%= text_field_tag :name, @product.name %>
+  </div>
+  <div>
+    <%= label_tag :price %>
+    <%= text_field_tag :price, @product.price %>
+  </div>
+  <div>
+    <%= label_tag :description %>
+    <%= text_field_tag :description, @product.description %>
+  </div>
+  <div>
+    <%= label_tag :in_stock %>
+    <%= text_field_tag :in_stock, @product.in_stock %>
+  </div>
+  <div>
+    <%= label_tag :supplier_id %>
+    <%= select_tag :supplier_id, options_for_select(@suppliers.collect{ |s| [s.name, s.id] }) %>
+  </div>
+
+  <%= submit_tag message %>
+
+<% end %>
