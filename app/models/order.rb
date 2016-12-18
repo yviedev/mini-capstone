@@ -8,7 +8,7 @@ class Order < ApplicationRecord
   has_many :products, through: :carted_products
 
   def pretty_time
-    created_at.strftime("%b %d %y")
+    created_at.strftime("%B %y %d")
   end
 
   def calculated_subtotal
@@ -32,5 +32,5 @@ class Order < ApplicationRecord
   def save_all_totals
     update(subtotal: calculated_subtotal, total: calculated_total, tax: calculated_tax)
   end
-  
+
 end
